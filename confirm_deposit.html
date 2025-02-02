@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأكيد الإيداع</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .plan-info {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .plan-info h2 {
+            color: #333;
+        }
+        .plan-info p {
+            color: #555;
+        }
+        .wallet-address {
+            background-color: #e0e0e0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .back-button a {
+            text-decoration: none;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>تمت عملية الإيداع بنجاح</h1>
+
+        <div class="plan-info">
+            <h2>الرجاء إرسال المبلغ التالي إلى العنوان المناسب</h2>
+            <p>المبلغ الذي تم إيداعه: <span id="deposit-amount"></span></p>
+            <p>العنوان الذي يجب إرسال الأموال إليه: </p>
+
+            <div class="wallet-address" id="wallet-address">
+                <!-- سيتم استبدال هذا بالعنوان بناءً على المبلغ -->
+            </div>
+        </div>
+
+        <div class="back-button">
+            <a href="hhh.html">الرجوع إلى الصفحة الرئيسية</a>
+        </div>
+    </div>
+
+    <script>
+        // الحصول على المبلغ من الـ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const amount = urlParams.get('amount');
+
+        // عناوين المحفظة بناءً على المبلغ
+        const walletAddresses = {
+            1: "TAddress1_1abcd234567890abcdef12345", // 1 دولار
+            10: "TAddress2_2abcd234567890abcdef12345", // 10 دولار
+            20: "TAddress3_3abcd234567890abcdef12345", // 20 دولار
+            50: "TAddress4_4abcd234567890abcdef12345", // 50 دولار
+            100: "TAddress5_5abcd234567890abcdef12345", // 100 دولار
+            150: "TAddress6_6abcd234567890abcdef12345", // 150 دولار
+            300: "TAddress7_7abcd234567890abcdef12345", // 300 دولار
+            500: "TAddress8_8abcd234567890abcdef12345"  // 500 دولار
+        };
+
+        // عرض المبلغ والعنوان المحفظة بناءً على المبلغ المدخل
+        if (amount && walletAddresses[amount]) {
+            document.getElementById('deposit-amount').textContent = `${amount} دولار`;
+            document.getElementById('wallet-address').textContent = walletAddresses[amount];
+        } else {
+            alert('المبلغ غير مدعوم أو غير صحيح!');
+        }
+    </script>
+</body>
+</html>

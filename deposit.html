@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة الإيداع</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 400px; /* جعل العرض أصغر ليصبح عمودي */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center; /* توسيط المحتوى */
+        }
+        .image img {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        h1 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .amount-input, .package-select, .submit-button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .submit-button {
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- صورة في الأعلى -->
+        <div class="image"> 
+            <img src="https://i.seadn.io/gae/DgUiBEOCWv6SWkZjxbk9xxj9dtx7X2BNZ4EQTMAyJsZZ5Fd4G-CG2mQSCY7SKQeUyykJbzi-Kl4RGM8Q7LI61AQ8sX8YA0cg2-EL?auto=format&dpr=1&w=1400&fr=1" alt="USDT Logo">
+        </div>
+
+        <!-- محتوى الصفحة -->
+        <h1>إيداع المبلغ لفتح الباقة</h1>
+        <label for="package">اختر باقة الإيداع:</label>
+        <select id="package" class="package-select">
+            <option value="" disabled selected>اختر باقة</option>
+            <option value="1">1 دولار</option>
+            <option value="10">10 دولار</option>
+            <option value="20">20 دولار</option>
+            <option value="50">50 دولار</option>
+            <option value="100">100 دولار</option>
+            <option value="150">150 دولار</option>
+            <option value="300">300 دولار</option>
+            <option value="500">500 دولار</option>
+        </select>
+        <input type="number" id="amount" class="amount-input" placeholder="أدخل المبلغ للإيداع" min="1" disabled>
+        <button id="depositButton" class="submit-button" disabled>إتمام الإيداع</button>
+        <div class="error-message" id="error-message"></div>
+    </div>
+
+    <script>
+        const validAmounts = {
+            "1": [1],
+            "10": [10],
+            "20": [20],
+            "50": [50],
+            "100": [100],
+            "150": [150],
+            "300": [300],
+            "500": [500]
+        };
+
+        let selectedPackage = '';
+
+        document.getElementById('package').addEventListener('change', function() {
+            selectedPackage = this.value;
+            document.getElementById('amount').disabled = false;
+            document.getElementById('amount').value = '';
+            document.getElementById('error-message').textContent = '';
+            document.getElementById('depositButton').disabled = true;
+        });
+
+        document.getElementById('amount').addEventListener('input', function() {
+            const amount = document.getElementById('amount').value;
+            const isValidAmount = validAmounts[selectedPackage] && validAmounts[selectedPackage].includes(Number(amount));
+
+            document.getElementById('depositButton').disabled = !isValidAmount;
+
+            if (!isValidAmount && amount !== "") {
+                document.getElementById('error-message').textContent = "المبلغ المدخل غير صحيح. الرجاء إدخال المبلغ المطابق للباقة المحددة.";
+            } else {
+                document.getElementById('error-message').textContent = "";
+            }
+        });
+
+        document.getElementById('depositButton').onclick = function() {
+            const amount = document.getElementById('amount').value;
+            if (validAmounts[selectedPackage] && validAmounts[selectedPackage].includes(Number(amount))) {
+                window.location.href = `confirm_deposit.html?amount=${amount}&package=${selectedPackage}`;
+            } else {
+                alert("المبلغ المدخل غير صحيح. الرجاء إدخال المبلغ الصحيح.");
+                window.location.href = "deposit.html";
+            }
+        }
+    </script>
+</body>
+</html>
